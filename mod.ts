@@ -3,6 +3,7 @@ import type { PathParams } from "./deps.ts";
 
 import { search } from "./search.ts";
 import { landing } from "./landing.ts";
+import { tag } from "./tag.ts";
 
 const searchHandler = async (_request: Request, params: PathParams) => {
     const query: string = params.query.toString();
@@ -10,8 +11,15 @@ const searchHandler = async (_request: Request, params: PathParams) => {
     return response;
 }
 
+const tagHandler = async (_request: Request, params: PathParams) => {
+    const id: number = parseInt(typeof params.id == "string" ? params.id : params.id[0]);
+    const response = await tag(id);
+    return response;
+}
+
 const servings = {
     "/search/:query": searchHandler,
+    "/tag/:id": tagHandler,
     "/": landing
 };
 

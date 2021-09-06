@@ -1,0 +1,63 @@
+export type Tag = {
+    id: number,
+    title: string,
+    altTitle?: string,
+    version?: string,
+    key?: string,
+    tonality?: string,
+    parts?: number;
+    type?: string,
+    recording?: string,
+    teachVid?: string,
+    lyrics?: string,
+    notes?: string,
+    arranger?: string,
+    arrangerWebsite?: string,
+    arranged?: number,
+    sungBy?: string,
+    sungWebsite?: string,
+    sungYear?: number,
+    quartet?: string,
+    quartetWebsite?: string,
+    teacher?: string,
+    teacherWebsite?: string,
+    provider?: string,
+    providerWebsite?: string,
+    posted: string,
+    classic?: number,
+    collection?: string,
+    rating?: number,
+    ratingCount?: number,
+    downloaded: number,
+    stamp: string,
+    sheetMusicAlt?: string,
+    sheetMusic?: File,
+    notation?: File,
+    allParts?: File,
+    bass?: File,
+    bari?: File,
+    lead?: File,
+    tenor?: File,
+    other1?: File,
+    other2?: File,
+    other3?: File,
+    other4?: File,
+    videos?: Video[]
+}
+
+type File = {
+    url: string,
+    type?: string
+}
+export type Video = {
+    id: number,
+    description?: string,
+    key?: string,
+    tonality?: string,
+    multitrack?: boolean,
+    code?: string,
+    facebook?: string,
+    sungBy?: string,
+    sungWebsite?: string,
+    posted: string
+}
