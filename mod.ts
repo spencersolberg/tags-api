@@ -4,22 +4,35 @@ import type { PathParams } from "./deps.ts";
 import { search } from "./search.ts";
 import { landing } from "./landing.ts";
 import { tag } from "./tag.ts";
+import { download } from "./download.ts";
 
-const searchHandler = async (_request: Request, params: PathParams) => {
+const searchHandler = async (request: Request, params: PathParams) => {
     const query: string = params.query.toString();
-    const response = await search(query);
+    const requestURL: URL = new URL(request.url);
+    const baseURL: string = requestURL.protocol + "//" + requestURL.host;
+    const response = await search(query, baseURL);
     return response;
 }
 
-const tagHandler = async (_request: Request, params: PathParams) => {
+const tagHandler = async (request: Request, params: PathParams) => {
     const id: number = parseInt(typeof params.id == "string" ? params.id : params.id[0]);
-    const response = await tag(id);
+    const requestURL: URL = new URL(request.url);
+    const baseURL: string = requestURL.protocol + "//" + requestURL.host;
+    const response = await tag(id, baseURL);
+    return response;
+}
+
+const downloadHandler = async (_request: Request, params: PathParams) => {
+    const id: number = parseInt(typeof params.id == "string" ? params.id : params.id[0]);
+    const name: string = params.name.toString();
+    const response = await download(id, name);
     return response;
 }
 
 const servings = {
     "/search/:query": searchHandler,
     "/tag/:id": tagHandler,
+    "/download/:id/:name": downloadHandler,
     "/": landing
 };
 

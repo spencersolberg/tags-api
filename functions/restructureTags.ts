@@ -1,7 +1,7 @@
 import type { Tag, Video } from "../types/tag.ts";
 import type { OriginalTag, OldVideo } from "../types/originalTag.ts";
 
-export const restructureTags = (tags: OriginalTag | OriginalTag[]): Tag[] => {
+export const restructureTags = (tags: OriginalTag | OriginalTag[], baseURL: string): Tag[] => {
     if (!Array.isArray(tags)) {
         tags = [ tags ];
     }
@@ -42,17 +42,17 @@ export const restructureTags = (tags: OriginalTag | OriginalTag[]): Tag[] => {
             downloaded: tag.Downloaded,
             stamp: tag.stamp,
             sheetMusicAlt: tag.SheetMusicAlt ?? undefined,
-            sheetMusic: tag.SheetMusic ? restructureFile(tag.SheetMusic) : undefined,
-            notation: tag.Notation ? restructureFile(tag.Notation) : undefined,
-            allParts: tag.AllParts ? restructureFile(tag.AllParts) : undefined,
-            bass: tag.Bass ? restructureFile(tag.Bass) : undefined,
-            bari: tag.Bari ? restructureFile(tag.Bari) : undefined,
-            lead: tag.Lead ? restructureFile(tag.Lead) : undefined,
-            tenor: tag.Tenor ? restructureFile(tag.Tenor) : undefined,
-            other1: tag.Other1 ? restructureFile(tag.Other1) : undefined,
-            other2: tag.Other2 ? restructureFile(tag.Other2) : undefined,
-            other3: tag.Other3 ? restructureFile(tag.Other3) : undefined,
-            other4: tag.Other4 ? restructureFile(tag.Other4) : undefined,
+            sheetMusic: tag.SheetMusic ? restructureFile(tag.id, baseURL, "SheetMusic", tag.SheetMusic) : undefined,
+            notation: tag.Notation ? restructureFile(tag.id, baseURL, "Notation", tag.Notation) : undefined,
+            allParts: tag.AllParts ? restructureFile(tag.id, baseURL, "AllParts", tag.AllParts) : undefined,
+            bass: tag.Bass ? restructureFile(tag.id, baseURL, "Bass", tag.Bass) : undefined,
+            bari: tag.Bari ? restructureFile(tag.id, baseURL, "Bari", tag.Bari) : undefined,
+            lead: tag.Lead ? restructureFile(tag.id, baseURL, "Lead", tag.Lead) : undefined,
+            tenor: tag.Tenor ? restructureFile(tag.id, baseURL, "Tenor", tag.Tenor) : undefined,
+            other1: tag.Other1 ? restructureFile(tag.id, baseURL, "Other1", tag.Other1) : undefined,
+            other2: tag.Other2 ? restructureFile(tag.id, baseURL, "Other2", tag.Other2) : undefined,
+            other3: tag.Other3 ? restructureFile(tag.id, baseURL, "Other3", tag.Other3) : undefined,
+            other4: tag.Other4 ? restructureFile(tag.id, baseURL, "Other4", tag.Other4) : undefined,
             videos: tag.videos?.video ? restructureVideos(tag.videos.video) : undefined
 
 
@@ -62,9 +62,9 @@ export const restructureTags = (tags: OriginalTag | OriginalTag[]): Tag[] => {
     return restructuredTags;
 }
 
-const restructureFile = (file: any) => {
+const restructureFile = (id: number, baseURL: string, name: string, file: any) => {
     return {
-        url: file.$,
+        url: `${baseURL}/download/${id}/${name}`,
         type: file["@type"] ?? undefined
     }
 }
