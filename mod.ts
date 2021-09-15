@@ -5,6 +5,8 @@ import { search } from "./search.ts";
 import { landing } from "./landing.ts";
 import { tag } from "./tag.ts";
 import { download } from "./download.ts";
+// import { image } from "./image.ts";
+import { avatar } from "./avatar.ts";
 
 const searchHandler = async (request: Request, params: PathParams) => {
     const query: string = params.query.toString();
@@ -29,10 +31,23 @@ const downloadHandler = async (_request: Request, params: PathParams) => {
     return response;
 }
 
+// const imageHandler = async (_request: Request, params: PathParams) => {
+//     const id: number = parseInt(typeof params.id == "string" ? params.id : params.id[0]);
+//     const response = await image(id);
+//     return response;
+// }
+
+const avatarHandler = async (request: Request) => {
+    const response = await avatar(request);
+    return response;
+}
+
 const servings = {
     "/search/:query": searchHandler,
     "/tag/:id": tagHandler,
     "/download/:id/:name": downloadHandler,
+    // "/image/:id": imageHandler,
+    "/avatar": avatarHandler,
     "/": landing
 };
 
