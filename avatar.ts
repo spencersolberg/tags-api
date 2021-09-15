@@ -7,6 +7,17 @@ export const avatar = async (request: Request): Promise<Response> => {
             statusText: "Method Not Allowed",
         });
     }
+
+    if (!request.body) {
+        return json({
+            error: "No image was uploaded"
+        }, {
+            headers: {
+                "Access-Control-Allow-Origin": "*"
+            }
+        })
+    }
+
     const upload = await request.blob();
 
     if (!["image/png", "image/jpeg", "image/jpg"].includes(upload.type)) return json({
