@@ -1,13 +1,23 @@
 import { json } from "./deps.ts";
 
 export const avatar = async (request: Request): Promise<Response> => {
+    if (request.method === "OPTIONS") {
+        return new Response(null, {
+            status: 200,
+            statusText: "OK",
+            headers: {
+                "Access-Control-Allow-Origin": "*",
+                "Access-Control-Allow-Methods": "POST",
+                "Access-Control-Allow-Headers": "Content-Type"
+            }
+        })
+    }
     if (request.method !== "POST") {
         return new Response(null, {
             status: 405,
             statusText: "Method Not Allowed",
             headers: {
                 "Access-Control-Allow-Origin": "*",
-                "Access-Control-Allow-Methods": "POST"
             }
         });
     }
@@ -17,9 +27,7 @@ export const avatar = async (request: Request): Promise<Response> => {
             error: "No image was uploaded"
         }, {
             headers: {
-                "Access-Control-Allow-Origin": "*",
-                "Access-Control-Allow-Methods": "POST"
-
+                "Access-Control-Allow-Origin": "*"
             }
         })
     }
@@ -30,9 +38,7 @@ export const avatar = async (request: Request): Promise<Response> => {
         error: "Invalid file type (Use png, jpeg, or jpg)"
     }, {
         headers: {
-            "Access-Control-Allow-Origin": "*",
-            "Access-Control-Allow-Methods": "POST"
-
+            "Access-Control-Allow-Origin": "*"
         }
     });
 
@@ -40,9 +46,7 @@ export const avatar = async (request: Request): Promise<Response> => {
         error: "Uploaded file is too large (>8MB)"
     }, {
         headers: {
-            "Access-Control-Allow-Origin": "*",
-            "Access-Control-Allow-Methods": "POST"
-
+            "Access-Control-Allow-Origin": "*"
         }
     });
 
@@ -65,9 +69,7 @@ export const avatar = async (request: Request): Promise<Response> => {
 
     return json(response, {
         headers: {
-            "Access-Control-Allow-Origin" : "*",
-            "Access-Control-Allow-Methods": "POST"
-
+            "Access-Control-Allow-Origin" : "*"
         }
     });
 }
