@@ -34,9 +34,15 @@ export const avatar = async (request: Request): Promise<Response> => {
     });
     const data = await res.json();
 
-    return json({
-        file: data.file
-    }, {
+    let response;
+
+    if (data.success) {
+        response = { file: data.file }
+    } else {
+        response = { error: data.message }
+    }
+
+    return json(response, {
         headers: {
             "Access-Control-Allow-Origin" : "*"
         }
