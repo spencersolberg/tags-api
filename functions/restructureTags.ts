@@ -8,7 +8,7 @@ export const restructureTags = (tags: OriginalTag | OriginalTag[], baseURL: stri
 
     const restructuredTags: Tag[] =[];
 
-    for (let tag of tags) {
+    for (const tag of tags) {
         restructuredTags.push({
             id: tag.id,
             title: tag.Title,

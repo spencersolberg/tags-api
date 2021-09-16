@@ -7,6 +7,7 @@ import { tag } from "./tag.ts";
 import { download } from "./download.ts";
 // import { image } from "./image.ts";
 import { avatar } from "./avatar.ts";
+import { tags } from "./tags.ts";
 
 const searchHandler = async (request: Request, params: PathParams) => {
     const query: string = params.query.toString();
@@ -42,12 +43,21 @@ const avatarHandler = async (request: Request) => {
     return response;
 }
 
+const tagsHandler = async (request: Request, params: PathParams ) => {
+    const ids: number[] = typeof params.ids == "string" ? params.ids.split(",").map(i => { return parseInt(i); }) : [150];
+    const requestURL: URL = new URL(request.url);
+    const baseURL: string = requestURL.protocol + "//" + requestURL.host;
+    const response = await tags(ids, baseURL);
+    return response;
+}
+
 const servings = {
     "/search/:query": searchHandler,
     "/tag/:id": tagHandler,
     "/download/:id/:name": downloadHandler,
     // "/image/:id": imageHandler,
     "/avatar": avatarHandler,
+    "/tags/:ids": tagsHandler,
     "/": landing
 };
 
