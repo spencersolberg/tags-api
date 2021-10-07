@@ -1,5 +1,7 @@
 import { json } from "./deps.ts";
 import { tag } from "./tag.ts";
+import { cacheTags } from "./functions/cacheTags.ts";
+import type { Tag } from "./types/tag.ts";
 
 export const tags = async (ids: number[], baseURL: string): Promise<Response> => {
     console.log("Finding tags for:", ids)
@@ -9,12 +11,12 @@ export const tags = async (ids: number[], baseURL: string): Promise<Response> =>
 
     const datas = await Promise.all(responses);
 
-    const jsons: Promise<Record<string, unknown>>[] = datas.map(d => {
+    const jsons: Promise<Tag>[] = datas.map(d => {
         return d.json();
     });
 
-    const tags = await Promise.all(jsons);
-
+    const tags: Tag[] = await Promise.all(jsons);
+    cacheTags(tags);
     return json(tags, {
         headers: {
             "Access-Control-Allow-Origin": "*"
